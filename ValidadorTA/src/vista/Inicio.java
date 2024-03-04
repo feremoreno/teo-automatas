@@ -261,7 +261,6 @@ public class Inicio extends javax.swing.JFrame {
         
         //Se envia 'Matricula' a validarse y se guarda en ' prueba2 '
         String prueba2 = instancia.FiltrarMatricula(Matricula);
-        System.out.println(prueba2);
         
         //Se cambia la matricula en el TextField
 //        jTmatricula.setText(prueba2);
@@ -272,12 +271,13 @@ public class Inicio extends javax.swing.JFrame {
         //Se imprime el Alfabeto
         jTabecedario.setText("\u03A3" + " = { " + abecedario + " }");
         
-        //Se obtiene el input de "cadena a validar"
+        //Se obtiene el input de "cadena" a validar
         String cadenaVal = jTcadena.getText();
         
         //Mando llamar la clase validacion
-        String verificador = proceso.validacion(prueba1, prueba2, cadenaVal);
-        
+//        String verificador = proceso.validacion(prueba1, prueba2, cadenaVal);
+        String verificador = proceso.validacion(Nombre, prueba2, cadenaVal);
+
         jTvalidacion.setText(verificador);
     }//GEN-LAST:event_jBaceptarActionPerformed
 
@@ -290,6 +290,10 @@ public class Inicio extends javax.swing.JFrame {
         
         //Se limpia el input ' Cadena a Validar '
         jTcadena.setText("");
+        
+        jTabecedario.setText("");
+        
+        jTvalidacion.setText("");
     }//GEN-LAST:event_jBlimpiarActionPerformed
 
     private void jTvalidacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTvalidacionActionPerformed

@@ -13,31 +13,26 @@ public class Automata {
     
     //Metodo encargacdo de regresar las iniciales del nombre
     public String obtenerIniciales(String nombre) {
-        // Validar que el nombre no esté vacío
-        if (nombre.isEmpty()) {
-            return "";
+        
+        StringBuilder iniciales = new StringBuilder();
+        boolean nuevaInicial = true;
+
+        for (char caracter : nombre.toCharArray()) {
+            if (Character.isLetter(caracter)) {
+                if (nuevaInicial || caracter == ' ') {
+                    iniciales.append(caracter);
+                    nuevaInicial = false;
+                }
+            } else {
+                nuevaInicial = true;
+            }
         }
 
-        // Obtener la primera inicial
-        char primeraInicial = nombre.charAt(0);
-
-        // Encontrar la posición del primer espacio
-        int espacioPosicion = nombre.indexOf(' ');
-
-        // Si no hay espacio, la segunda inicial es la siguiente letra
-        if (espacioPosicion == -1) {
-            return String.valueOf(primeraInicial) + nombre.charAt(1);
-        }
-
-        // Obtener la segunda inicial
-        char segundaInicial = nombre.charAt(espacioPosicion + 1);
-
-        // Devolver las dos iniciales como un String
-        return String.valueOf(primeraInicial) + segundaInicial;
+        return iniciales.toString();
     }
 
     //CODIGO TOCHOOOOOO =================================================================
-    public String validarCadena(String nombre, String matricula, String iniciales, String cadena) {
+    public String validarCadena(String matricula, String iniciales, String cadena, String oldMatricula) {
         
         // VERIFICAR QUE PRIMER DIGITO DE 'CADENA' SEA ALGUN NUMERO DE 'MATRICULA' ======
         
@@ -83,32 +78,31 @@ public class Automata {
 //            return "Cadena No Valida";
 //        }
         
-        //VERIFICAR QUE 'CADENA' CONTENGA AL MENOS UNA VEZ CADA UNA DE LAS LETRAS =======
-        // Convertir "nombre" a un conjunto de caracteres
-        Set<Character> caracteresNombre = new HashSet<>();
-
-        for (char caracter : nombre.toCharArray()) {
-            caracteresNombre.add(caracter);
-        }
-
-        // Recorrer cada caracter de "cadena"
-        for (char caracter : cadena.toCharArray()) {
-            // Si el caracter está en el conjunto "caracteresNombre", eliminarlo del conjunto
-            if (caracteresNombre.contains(caracter)) {
-                caracteresNombre.remove(caracter);
-            }
-        }
-
-        // Si el conjunto "caracteresNombre" está vacío, la cadena es válida
-        if (!(caracteresNombre.isEmpty())) {
-            System.out.println("Aqui esta el error (3)");
-            return "Cadena No Valida";
-        }
+//        //VERIFICAR QUE 'CADENA' CONTENGA AL MENOS UNA VEZ CADA UNA DE LAS LETRAS =======
+//        // Convertir "nombre" a un conjunto de caracteres
+//        Set<Character> caracteresNombre = new HashSet<>();
+//
+//        for (char caracter : nombre.toCharArray()) {
+//            caracteresNombre.add(caracter);
+//        }
+//
+//        // Recorrer cada caracter de "cadena"
+//        for (char caracter : cadena.toCharArray()) {
+//            // Si el caracter está en el conjunto "caracteresNombre", eliminarlo del conjunto
+//            if (caracteresNombre.contains(caracter)) {
+//                caracteresNombre.remove(caracter);
+//            }
+//        }
+//
+//        // Si el conjunto "caracteresNombre" está vacío, la cadena es válida
+//        if (!(caracteresNombre.isEmpty())) {
+//            System.out.println("Aqui esta el error (3)");
+//            return "Cadena No Valida";
+//        }
         
         //VERIFICAR QUE 'CADENA' CONTIENE AL MENOS UNA VEZ A 'INICIALES' ================
         if ( !(cadena.contains(iniciales)) ) {
             // La cadena "iniciales" se encuentra en la cadena "cadena"
-            System.out.println("Aqui esta el error (4)");
             return "Cadena No Valida";
         }
 
@@ -120,13 +114,11 @@ public class Automata {
         
         //VERIFICAR QUE ' CADENA ' TERMINE CON LA ' MATRICULA ' =========================
         
-        if ( !(cadena.endsWith(matricula)) ) {
-            //No hace nada
-            System.out.println("Se mete aqui");
-        } else {
-            System.out.println("Noo se mete aqui");
-            return "Cadena No Valida";
-        }
+//        if ( !(cadena.endsWith(matricula)) ) {
+//            //No hace nada
+//        } else {
+//            return "Cadena No Valida";
+//        }
         
 //        if (cadena.length() < matricula.length()) {
 //            System.out.println("Aqui esta el error (6)");
@@ -140,8 +132,15 @@ public class Automata {
 //            return "Cadena No Valida";
 //        }
 
+        if (cadena.endsWith(oldMatricula)) {
+            return "Cadena Valida";
+        } else {
+            System.out.println("Perro Error");
+            return "Cadena No Valida";
+        }
+
         //Si nada de lo anterior se cumple, entonces la cadena es valida
-        return "Cadena Valida";
+//        return "Cadena Valida";
     }
 
     
@@ -156,13 +155,17 @@ public class Automata {
         //Reutilizo el metodo para ordenar numeros y lo guardo en un nuevo string
         String ordenarMatricula = reutiliza.ordenarNumeros(matricula);
         ordenarMatricula = "." + ordenarMatricula;
-        System.out.println(ordenarMatricula);
+        
+        //Creo un metodo para eliminar caracteres que no esten en el alfabeto
+        //y pasar a minusculas
+        String reNombre = nombre.toLowerCase();
         
         //Obtengo las iniciales del nombre con ayuda del metodo 'obtenerIniciales'
-        String iniciales = estaClase.obtenerIniciales(nombre);
+        String iniciales = estaClase.obtenerIniciales(reNombre);
         
         //Envio 'nombre', 'matricula' y 'cadena' a validar y guardo la validacion
-        String verificacion = estaClase.validarCadena(ordenarNombre, ordenarMatricula, iniciales, cadena);
+        System.out.println(matricula);
+        String verificacion = estaClase.validarCadena(ordenarMatricula, iniciales, cadena, matricula);
         
         return verificacion;
     }
